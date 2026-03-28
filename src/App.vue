@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 import MarkdownIt from 'markdown-it'
@@ -16,6 +16,8 @@ const markdown = new MarkdownIt({
   typographer: true,
 })
 
+const desktopEntries = window.desktopApp?.entries
+
 const safeParseEntries = () => {
   try {
     return JSON.parse(window.localStorage.getItem(storageKey) || '{}')
@@ -26,21 +28,54 @@ const safeParseEntries = () => {
 
 const currentMonth = ref(today.startOf('month'))
 const selectedDate = ref(today.format('YYYY-MM-DD'))
-const entries = ref(safeParseEntries())
+const entries = ref({})
 const isEditing = ref(false)
 const editorRef = ref(null)
+const isHydrating = ref(true)
+const saveTimer = ref(null)
 
-watch(
-  entries,
-  (value) => {
-    window.localStorage.setItem(storageKey, JSON.stringify(value))
-  },
-  { deep: true },
-)
+const persistFallbackEntries = (value) => {
+  window.localStorage.setItem(storageKey, JSON.stringify(value))
+}
+
+const writeEntry = async (date, content) => {
+  if (desktopEntries) {
+    await desktopEntries.write(date, content)
+    return
+  }
+
+  persistFallbackEntries(entries.value)
+}
+
+const loadEntries = async () => {
+  if (desktopEntries) {
+    entries.value = await desktopEntries.list()
+    return
+  }
+
+  entries.value = safeParseEntries()
+}
 
 watch(selectedDate, (value) => {
   if (value) {
     currentMonth.value = dayjs(value).startOf('month')
+  }
+})
+
+onMounted(async () => {
+  try {
+    await loadEntries()
+  } catch (error) {
+    console.error(error)
+    entries.value = safeParseEntries()
+  } finally {
+    isHydrating.value = false
+  }
+})
+
+onBeforeUnmount(() => {
+  if (saveTimer.value) {
+    clearTimeout(saveTimer.value)
   }
 })
 
@@ -80,6 +115,31 @@ const currentEntry = computed({
   },
 })
 
+const persistNow = async (date) => {
+  if (saveTimer.value) {
+    clearTimeout(saveTimer.value)
+    saveTimer.value = null
+  }
+
+  const content = entries.value[date] || ''
+  await writeEntry(date, content)
+}
+
+watch(currentEntry, (value) => {
+  if (isHydrating.value) {
+    return
+  }
+
+  if (saveTimer.value) {
+    clearTimeout(saveTimer.value)
+  }
+
+  const activeDate = selectedDate.value
+  saveTimer.value = setTimeout(() => {
+    writeEntry(activeDate, value).catch(console.error)
+  }, 240)
+})
+
 const renderedMarkdown = computed(() => {
   return DOMPurify.sanitize(markdown.render(currentEntry.value || ''))
 })
@@ -93,6 +153,7 @@ const filledDays = computed(() => {
 })
 
 const selectDate = (iso) => {
+  persistNow(selectedDate.value).catch(console.error)
   selectedDate.value = iso
   currentMonth.value = dayjs(iso).startOf('month')
 }
@@ -113,6 +174,7 @@ const enterEditing = async () => {
 }
 
 const leaveEditing = () => {
+  persistNow(selectedDate.value).catch(console.error)
   isEditing.value = false
 }
 </script>
