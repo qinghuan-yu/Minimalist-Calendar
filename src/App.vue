@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 import MarkdownIt from 'markdown-it'
@@ -27,6 +27,8 @@ const safeParseEntries = () => {
 const currentMonth = ref(today.startOf('month'))
 const selectedDate = ref(today.format('YYYY-MM-DD'))
 const entries = ref(safeParseEntries())
+const isEditing = ref(false)
+const editorRef = ref(null)
 
 watch(
   entries,
@@ -103,6 +105,16 @@ const jumpToToday = () => {
   selectedDate.value = today.format('YYYY-MM-DD')
   currentMonth.value = today.startOf('month')
 }
+
+const enterEditing = async () => {
+  isEditing.value = true
+  await nextTick()
+  editorRef.value?.focus()
+}
+
+const leaveEditing = () => {
+  isEditing.value = false
+}
 </script>
 
 <template>
@@ -161,7 +173,7 @@ const jumpToToday = () => {
     </aside>
 
     <main class="workspace">
-      <section class="editor-panel glass-panel">
+      <section class="compose-panel glass-panel">
         <div class="panel-header">
           <div>
             <p class="eyebrow">Selected Day</p>
@@ -170,30 +182,31 @@ const jumpToToday = () => {
           <input v-model="selectedDate" class="date-input" type="date" />
         </div>
 
-        <textarea
-          v-model="currentEntry"
-          class="editor"
-          placeholder="# 今天过得怎么样？\n\n- 记录一件具体的事\n- 写下一个想法\n- 或者留一段给未来的自己"
-        />
-      </section>
-
-      <section class="preview-panel glass-panel">
-        <div class="panel-header">
-          <div>
-            <p class="eyebrow">Markdown Preview</p>
-            <h2>实时预览</h2>
-          </div>
-          <span class="preview-hint">支持标题、列表、引用和链接</span>
+        <div class="panel-toolbar">
+          <span class="preview-hint" v-if="isEditing">正在编辑，点击别处返回预览</span>
+          <span class="preview-hint" v-else>预览状态，点击内容区域开始编辑</span>
         </div>
 
-        <article
-          v-if="currentEntry.trim()"
-          class="markdown-body"
-          v-html="renderedMarkdown"
-        />
-        <div v-else class="empty-state">
-          <p>这一天还没有内容。</p>
-          <p>在左侧选日期，或者直接开始写第一段 Markdown。</p>
+        <div class="compose-body" @click="!isEditing && enterEditing()">
+          <textarea
+            v-if="isEditing"
+            ref="editorRef"
+            v-model="currentEntry"
+            class="editor"
+            placeholder="# 今天过得怎么样？\n\n- 记录一件具体的事\n- 写下一个想法\n- 或者留一段给未来的自己"
+            @blur="leaveEditing"
+          />
+
+          <article
+            v-else-if="currentEntry.trim()"
+            class="markdown-body"
+            v-html="renderedMarkdown"
+          />
+
+          <div v-else class="empty-state">
+            <p>这一天还没有内容。</p>
+            <p>点击这个区域开始写第一段 Markdown。</p>
+          </div>
         </div>
       </section>
     </main>

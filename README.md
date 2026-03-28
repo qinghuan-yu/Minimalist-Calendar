@@ -31,7 +31,7 @@ npm run build
 npm run build:desktop
 ```
 
-打包产物会输出到 release 目录。
+打包产物会输出到 released 目录。
 
 ## 当前验证结果
 
