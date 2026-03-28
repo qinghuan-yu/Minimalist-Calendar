@@ -123,9 +123,7 @@ const leaveEditing = () => {
       <div class="brand-card glass-panel">
         <p class="eyebrow">Diary Calendar</p>
         <h1>日记日历</h1>
-        <p class="muted">
-          用一个轻量桌面界面，把日期、灵感和 Markdown 记录收在同一页里。
-        </p>
+      
       </div>
 
       <div class="calendar-card glass-panel">
@@ -182,18 +180,12 @@ const leaveEditing = () => {
           <input v-model="selectedDate" class="date-input" type="date" />
         </div>
 
-        <div class="panel-toolbar">
-          <span class="preview-hint" v-if="isEditing">正在编辑，点击别处返回预览</span>
-          <span class="preview-hint" v-else>预览状态，点击内容区域开始编辑</span>
-        </div>
-
         <div class="compose-body" @click="!isEditing && enterEditing()">
           <textarea
             v-if="isEditing"
             ref="editorRef"
             v-model="currentEntry"
             class="editor"
-            placeholder="# 今天过得怎么样？\n\n- 记录一件具体的事\n- 写下一个想法\n- 或者留一段给未来的自己"
             @blur="leaveEditing"
           />
 
@@ -203,10 +195,7 @@ const leaveEditing = () => {
             v-html="renderedMarkdown"
           />
 
-          <div v-else class="empty-state">
-            <p>这一天还没有内容。</p>
-            <p>点击这个区域开始写第一段 Markdown。</p>
-          </div>
+          <div v-else class="empty-state" />
         </div>
       </section>
     </main>

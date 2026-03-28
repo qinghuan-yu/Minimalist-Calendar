@@ -1,13 +1,13 @@
 :root {
-  color-scheme: light;
+  color-scheme: dark;
   font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #1f2937;
+  color: #e7edf7;
   background:
-    radial-gradient(circle at top left, rgba(255, 206, 160, 0.9), transparent 28%),
-    radial-gradient(circle at bottom right, rgba(145, 190, 255, 0.65), transparent 25%),
-    linear-gradient(135deg, #f7f3eb 0%, #fffaf5 45%, #eef4ff 100%);
+    radial-gradient(circle at top left, rgba(92, 119, 168, 0.26), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(62, 88, 128, 0.28), transparent 26%),
+    linear-gradient(135deg, #11161f 0%, #161d29 45%, #0e1420 100%);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -58,10 +58,10 @@ button {
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: rgba(18, 26, 38, 0.78);
+  border: 1px solid rgba(151, 170, 198, 0.14);
   border-radius: 28px;
-  box-shadow: 0 24px 60px rgba(97, 84, 58, 0.12);
+  box-shadow: 0 24px 60px rgba(3, 7, 18, 0.36);
   backdrop-filter: blur(20px);
 }
 
@@ -77,7 +77,7 @@ button {
   font-size: 12px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #b86f3b;
+  color: #88aee8;
 }
 
 h1,
@@ -93,10 +93,9 @@ h2 {
 }
 
 .muted,
-.preview-hint,
 .stats-label,
 .empty-state {
-  color: #6b7280;
+  color: #95a4bd;
 }
 
 .calendar-toolbar,
@@ -120,14 +119,14 @@ h2 {
 }
 
 .ghost-btn {
-  background: rgba(238, 244, 255, 0.8);
-  color: #39557d;
+  background: rgba(120, 146, 190, 0.14);
+  color: #d7e3f6;
 }
 
 .today-btn {
   width: 100%;
   margin-top: 18px;
-  background: linear-gradient(135deg, #f09a62, #e16b53);
+  background: linear-gradient(135deg, #5a7fc9, #2d4f88);
   color: #fff;
 }
 
@@ -147,7 +146,7 @@ h2 {
 .weekday-row {
   margin-bottom: 10px;
   text-align: center;
-  color: #7c8699;
+  color: #7f8da3;
   font-size: 13px;
 }
 
@@ -155,7 +154,7 @@ h2 {
   position: relative;
   aspect-ratio: 1;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.68);
+  background: rgba(255, 255, 255, 0.05);
   color: inherit;
 }
 
@@ -173,20 +172,20 @@ h2 {
   height: 6px;
   border-radius: 50%;
   transform: translateX(-50%);
-  background: #ef7d4d;
+  background: #8fb4ef;
 }
 
 .day-cell.is-muted {
-  color: #a7afbc;
-  background: rgba(255, 255, 255, 0.35);
+  color: #5f6d85;
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .day-cell.is-today {
-  box-shadow: inset 0 0 0 1px rgba(239, 125, 77, 0.55);
+  box-shadow: inset 0 0 0 1px rgba(143, 180, 239, 0.55);
 }
 
 .day-cell.is-selected {
-  background: linear-gradient(135deg, #355c7d, #6c8db8);
+  background: linear-gradient(135deg, #46679f, #2f466f);
   color: #fff;
 }
 
@@ -194,7 +193,7 @@ h2 {
   display: block;
   margin-top: 6px;
   font-size: 28px;
-  color: #23314a;
+  color: #f4f7fc;
 }
 
 .compose-panel {
@@ -203,49 +202,52 @@ h2 {
   min-height: calc(100vh - 48px);
 }
 
-.panel-toolbar {
-  margin-top: 12px;
-}
-
 .compose-body {
   min-height: 0;
   height: 100%;
   margin-top: 12px;
   border-radius: 22px;
-  background: rgba(247, 249, 252, 0.9);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  background: rgba(8, 13, 21, 0.52);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
   overflow: hidden;
+  cursor: text;
 }
 
 .date-input {
-  border: 1px solid rgba(57, 85, 125, 0.18);
+  border: 1px solid rgba(151, 170, 198, 0.16);
   border-radius: 14px;
   padding: 10px 12px;
-  background: rgba(255, 255, 255, 0.72);
+  color: #e7edf7;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .editor {
   width: 100%;
   height: 100%;
-  padding: 20px;
+  padding: 24px 26px;
   border: none;
   border-radius: 0;
   resize: none;
-  color: #1f2937;
+  color: #edf3ff;
   background: transparent;
   box-shadow: none;
+  caret-color: #9bc2ff;
+}
+
+.editor::placeholder {
+  color: #61728e;
 }
 
 .editor:focus,
 .date-input:focus {
-  outline: 2px solid rgba(83, 129, 189, 0.25);
+  outline: 2px solid rgba(108, 148, 211, 0.28);
 }
 
 .markdown-body,
 .empty-state {
   height: 100%;
   overflow: auto;
-  padding: 20px 22px;
+  padding: 24px 26px;
 }
 
 .markdown-body h1,
@@ -265,26 +267,46 @@ h2 {
 .markdown-body blockquote {
   margin-left: 0;
   padding-left: 16px;
-  border-left: 3px solid rgba(225, 107, 83, 0.45);
-  color: #526074;
+  border-left: 3px solid rgba(112, 150, 211, 0.55);
+  color: #aebdd4;
 }
 
 .markdown-body code {
   padding: 2px 6px;
   border-radius: 8px;
-  background: rgba(53, 92, 125, 0.08);
+  background: rgba(114, 146, 198, 0.12);
 }
 
 .markdown-body pre {
   padding: 14px;
   border-radius: 18px;
   overflow: auto;
-  background: #23314a;
+  background: #0e1624;
   color: #f6f7fb;
 }
 
 .markdown-body a {
-  color: #b85d34;
+  color: #8cb6ff;
+}
+
+.markdown-body {
+  color: #dce6f6;
+}
+
+.markdown-body hr {
+  border: none;
+  border-top: 1px solid rgba(151, 170, 198, 0.16);
+}
+
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.markdown-body th,
+.markdown-body td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(151, 170, 198, 0.12);
 }
 
 @media (max-width: 1100px) {
