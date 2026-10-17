@@ -4,6 +4,12 @@
 
 数据不经过任何服务器：**一天一个纯文本 `.md` 文件**，写在你自己电脑上。
 
+## 下载
+
+Windows 安装包见 [Releases](https://github.com/qinghuan-yu/Minimalist-Calendar/releases/latest)。
+
+安装包未做代码签名，Windows 可能提示「未知发布者」，选择「仍要运行」即可。
+
 ## 设计
 
 沿用博客的纸白 + 衬线排版体系：
