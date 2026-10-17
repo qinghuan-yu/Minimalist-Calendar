@@ -1,0 +1,39 @@
+{
+  "emptyTitle": "10 月 19 日 还没有内容",
+  "emptyHint": "这一页是空的，正好可以从今天写起。",
+  "hasStartButton": true,
+  "bodyTabindex": "0",
+  "bodyAriaLabel": "日记正文，按回车开始编辑",
+  "bodyFocusableByKeyboard": true,
+  "enterStartsEditing": true,
+  "focusMovedToEditor": "TEXTAREA",
+  "escapeLeavesEditing": true,
+  "debounce": {
+    "date": "2026-10-19",
+    "stored": "第一行内容",
+    "label": "已保存 22:35"
+  },
+  "savedOnBlur": "失焦前最后一句",
+  "switchRace": {
+    "from": "2026-10-19",
+    "stored": "切换前的最后一句",
+    "selectedNow": "2026-10-07"
+  },
+  "afterDateCleared": {
+    "header": "10 月 17 日 星期六",
+    "input": "2026-10-17"
+  },
+  "security": {
+    "articleRendered": true,
+    "rawImgInDom": false,
+    "xssFired": 0,
+    "anchorTarget": "_blank",
+    "anchorRel": "noopener noreferrer"
+  },
+  "layout": {
+    "viewportHeight": 900,
+    "bodyScrollHeight": 900,
+    "footerBottom": 874,
+    "articleScrolls": false
+  }
+}

@@ -1,7 +1,8 @@
 {
   "name": "diary-calendar-app",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "description": "一个安静、克制的本地日记应用：按日期书写 Markdown，数据以明文文件保存在本机。",
   "type": "module",
   "main": "electron/main.cjs",
   "scripts": {
@@ -31,8 +32,10 @@
   "build": {
     "appId": "com.diary.calendar",
     "productName": "日记日历",
+    "copyright": "Copyright © 2026",
     "directories": {
-      "output": "released"
+      "output": "released",
+      "buildResources": "build"
     },
     "files": [
       "dist/**/*",
@@ -40,11 +43,19 @@
       "package.json"
     ],
     "win": {
+      "icon": "build/icon.ico",
       "signAndEditExecutable": false,
       "target": [
         "nsis"
       ],
-      "artifactName": "${productName}-Setup-${version}.${ext}"
+      "artifactName": "diary-calendar-setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "日记日历",
+      "deleteAppDataOnUninstall": false
     }
   }
 }

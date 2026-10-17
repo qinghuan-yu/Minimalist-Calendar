@@ -1,0 +1,27 @@
+{
+  "bridgePresent": true,
+  "entriesApi": [
+    "list",
+    "write",
+    "getDirectory",
+    "openDirectory"
+  ],
+  "hasFlushChannel": true,
+  "listShape": {
+    "hasEntries": true,
+    "count": 13,
+    "failed": 0,
+    "allStrings": true
+  },
+  "write": {
+    "saved": true,
+    "visibleAfterWrite": true,
+    "roundTripsExactly": true
+  },
+  "remove": {
+    "savedFlag": true,
+    "goneAfterRemove": true
+  },
+  "tempFilesLeftBehind": [],
+  "windowCount": 1
+}

@@ -1,49 +1,64 @@
 # 日记日历
 
-一个基于 Vue 3、Vite 和 Electron 的桌面日记应用。
+一个安静、克制的本地日记应用。左侧月历选日期，右侧用 Markdown 书写，内容实时排版成文。
+
+数据不经过任何服务器：**一天一个纯文本 `.md` 文件**，写在你自己电脑上。
+
+## 设计
+
+沿用博客的纸白 + 衬线排版体系：
+
+- 背景 `#fbfbf9`，纸面 `#ffffff`，全部结构靠 1px 细线分隔，不用阴影和卡片堆叠
+- 正文与标题使用衬线字体（Georgia / Noto Serif SC / Songti SC），标签用无衬线体拉开字距
+- 藏青 `#173765` 只用在当前选中、链接和主操作上
+- 数字统一等宽（`tabular-nums`），日期、统计不会跳动
 
 ## 功能
 
-- 月历视图选择日期
-- 按日期写 Markdown 日记
-- 右侧实时预览 Markdown
-- 本地 localStorage 自动保存
-- 预留 Electron 打包配置，可直接生成 Windows 安装包
+- 月历视图，有日记的日子带一个小圆点
+- 按日期写 Markdown，所见即所得的阅读态与编辑态切换
+- 输入自动保存（防抖 400 ms），面板右上角显示保存状态
+- `Esc` 结束编辑，`Ctrl + S` 立即保存
+- Markdown 渲染经过 DOMPurify 清洗，正文外链交给系统浏览器打开
+- 关闭窗口前会等待最后一次写入完成
+
+## 数据在哪
+
+```
+Windows: %APPDATA%\diary-calendar-app\entries\YYYY-MM-DD.md
+macOS:   ~/Library/Application Support/diary-calendar-app/entries/
+Linux:   ~/.config/diary-calendar-app/entries/
+```
+
+应用内左下角「打开数据目录」可以直接跳转。
+
+因为是明文，你可以用 git 版本管理、用 Obsidian 打开、或者直接 `grep`。删掉应用，日记还在。
+
+浏览器里直接打开（不走 Electron）时会退化为 `localStorage`，仅供预览样式用。
 
 ## 开发
 
 ```bash
 npm install
-npm run dev
+npm run dev        # 同时启动 Vite (5173) 与 Electron
 ```
 
-开发模式会同时启动 Vite 和 Electron。
-
-## 构建 Web 资源
+## 构建
 
 ```bash
-npm run build
+npm run build          # 只构建前端资源到 dist/
+npm run build:desktop  # 构建并打包 Windows 安装包到 released/
 ```
 
-## 打包桌面应用
+安装包使用 `build/icon.ico` 作为图标，NSIS 为可选安装目录的常规安装器。
 
-```bash
-npm run build:desktop
-```
-
-打包产物会输出到 released 目录。
-
-## 当前验证结果
-
-- 已验证 `npm run build` 可以正常产出 Vite 前端资源。
-- Electron 主进程和 electron-builder 配置已接入。
-- 如果本机执行 `npm install` 时 Electron 二进制下载失败，通常是网络或证书链问题，不是项目代码问题。
-
-在 PowerShell 下可以优先尝试：
+如果 `npm install` 时 Electron 二进制下载失败，通常是网络问题，可先尝试：
 
 ```powershell
 $env:ELECTRON_MIRROR="https://npmmirror.com/mirrors/electron/"
 npm rebuild electron
 ```
 
-如果仍然失败，需要切换到可以正常建立 TLS 连接的网络环境后再执行桌面打包。
+## 技术栈
+
+Vue 3 · Vite · Electron · dayjs · markdown-it · DOMPurify
